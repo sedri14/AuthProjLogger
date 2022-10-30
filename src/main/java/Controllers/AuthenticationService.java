@@ -27,6 +27,13 @@ class AuthenticationService {
         }
     }
 
+    public User validate(String token) {
+        if (!userTokens.containsKey(token)) {
+            throw new InvalidParameterException("Token incorrect");
+        }
+        return userTokens.get(token);
+    }
+
     public AuthenticationService() {
         this.userTokens = new HashMap<>();
     }
