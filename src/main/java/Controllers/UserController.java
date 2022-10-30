@@ -5,6 +5,7 @@ import java.util.regex.Pattern;
 
 public class UserController {
 
+
     public static void updateEmail(String mail, String token) throws IOException {
 //        if (mail == null)
 //            return;
