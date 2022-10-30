@@ -12,7 +12,9 @@ import java.util.*;
 
 class AuthenticationService {
 
+    static int id = 0;
     Map<String, User> userTokens;
+
 
     public AuthenticationService() {
         this.userTokens = new HashMap<>();
@@ -39,10 +41,18 @@ class AuthenticationService {
         userTokens.put(token, user);
         return token;
     }
-    
 
-    public static void updatePassword(String password) {
-        
+    public static void register(String email, String name, String password) {
+        if (!checkIfUserExists(email)) {
+            User user = new User(id++, email, name, password);
+            try {
+                BufferedWriter output = new BufferedWriter(new FileWriter(email + ".json"));
+                output.write(new Gson().toJson(user));
+            } catch (IOException e) {
+                System.out.println("Couldn't write to file");
+                throw new RuntimeException(e);
+            }
+        }
     }
 
     public static void updateName(String name) {
@@ -54,8 +64,15 @@ class AuthenticationService {
     }
 
 
-    public static void deleteUser(User user) {
+    private static boolean checkIfUserExists(String email) {
+        try (FileReader fr = new FileReader(email + ".json")) {
+        } catch (FileNotFoundException e) {
+            return false;
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
 
+        return true;
     }
 }
 
