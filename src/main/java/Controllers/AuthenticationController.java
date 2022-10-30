@@ -4,11 +4,15 @@ import java.security.InvalidParameterException;
 import java.util.regex.Pattern;
 
 public class AuthenticationController {
+     AuthenticationService authService;
+
+    public AuthenticationController() {
+        this.authService = AuthenticationService.getInstance();
+    }
 
     public String login(String email, String password) {
         checkEmail(email);
         checkPassword(password);
-        AuthenticationService authService = AuthenticationService.getInstance();
         return authService.login(email, password);
     }
 
@@ -26,8 +30,8 @@ public class AuthenticationController {
 
         checkEmail(email);
         checkName(name);
-        //check password
-        AuthenticationService.register(email, name, password);
+        checkPassword(password);
+        authService.register(email, name, password);
     }
 
     public void checkName(String name) {

@@ -31,32 +31,32 @@ class UserService {
         return result;
     }
 
-    static boolean createUser(User user) {
+    boolean createUser(User user) {
         return true;
     }
 
-    static boolean updateEmail(User user, String updatedEmail) throws IOException {
+    boolean updateEmail(User user, String updatedEmail) throws IOException {
         deleteFile(user.getEmail() + ".json");
         User newUser = new User(user.getId(), updatedEmail, user.getName(), user.getPassword());
         updateData(newUser);
         return true;
     }
 
-    static boolean updateName(User user, String updatedName) throws IOException {
+    boolean updateName(User user, String updatedName) throws IOException {
         deleteFile(user.getEmail() + ".json");
         User newUser = new User(user.getId(), user.getEmail(), updatedName, user.getPassword());
         updateData(newUser);
         return true;
     }
 
-    static boolean updatePassword(User user, String updatedPassword) throws IOException {
+    boolean updatePassword(User user, String updatedPassword) throws IOException {
         deleteFile(user.getEmail() + ".json");
         User newUser = new User(user.getId(), user.getEmail(), user.getName(), updatedPassword);
         updateData(newUser);
         return true;
     }
 
-    static boolean deleteUser(User user) {
+    boolean deleteUser(User user) {
         deleteFile(user.getEmail() + ".json");
         return true;
     }

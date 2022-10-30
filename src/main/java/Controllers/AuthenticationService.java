@@ -33,7 +33,7 @@ class AuthenticationService {
         return result;
     }
 
-    public static void register(String email, String name, String password) {
+    void register(String email, String name, String password) {
 
         if (!checkIfUserExists(email)) {
             User user = new User(id++, email, name, password);
@@ -47,7 +47,7 @@ class AuthenticationService {
         }
     }
 
-    public User validate(String token) {
+    User validate(String token) {
         if (!userTokens.containsKey(token)) {
             throw new InvalidParameterException("Token incorrect");
         }
