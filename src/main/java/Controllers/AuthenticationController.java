@@ -2,7 +2,6 @@ package Controllers;
 
 import java.security.InvalidParameterException;
 
-import java.security.InvalidParameterException;
 import java.util.regex.Pattern;
 
 public class AuthenticationController {
