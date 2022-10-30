@@ -6,9 +6,11 @@ import java.util.regex.Pattern;
 public class UserController {
 
     AuthenticationService authService;
+    UserService userService;
 
     public UserController() {
-        this.authService = new AuthenticationService();
+        this.authService = AuthenticationService.getInstance();
+        this.userService = UserService.getInstance();
     }
 
     public void updateEmail(String mail, String token) throws IOException {
@@ -21,22 +23,22 @@ public class UserController {
 //        Pattern pat = Pattern.compile(emailRegex);
 //        if(pat.matcher(mail).matches()) {
         User user = authService.validate(token);
-        UserService.updateEmail(user, mail);
+        userService.updateEmail(user, mail);
     }
 
     public void updateName(String name, String token) throws IOException {
         User user = authService.validate(token);
-        UserService.updateName(user,name);
+        userService.updateName(user,name);
     }
     public void updatePassword(String password, String token) throws IOException {
         User user = authService.validate(token);
-        UserService.updatePassword(user,password);
+        userService.updatePassword(user,password);
     }
 
 
     public void deleteUser(String token){
         User user = authService.validate(token);
-        UserService.deleteUser(user);
+        userService.deleteUser(user);
 
     }
 

@@ -10,8 +10,28 @@ import java.util.*;
 
 class AuthenticationService {
 
+    private static volatile AuthenticationService authService;
     static int id = 0;
     Map<String, User> userTokens;
+
+    private AuthenticationService() {
+        this.userTokens = new HashMap<>();
+    }
+
+    public static AuthenticationService getInstance() {
+
+        AuthenticationService result = authService;
+
+        if (result == null) {
+            synchronized (AuthenticationService.class) {
+                result = authService;
+                if (result == null) {
+                    authService = result = new AuthenticationService();
+                }
+            }
+        }
+        return result;
+    }
 
     public static void register(String email, String name, String password) {
 
@@ -34,9 +54,6 @@ class AuthenticationService {
         return userTokens.get(token);
     }
 
-    public AuthenticationService() {
-        this.userTokens = new HashMap<>();
-    }
 
     String login(String email, String password) {
         try (FileReader reader = new FileReader(email + ".json")) {

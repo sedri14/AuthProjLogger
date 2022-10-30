@@ -8,8 +8,8 @@ public class AuthenticationController {
     public String login(String email, String password) {
         checkEmail(email);
         checkPassword(password);
-        AuthenticationService service = new AuthenticationService();
-        return service.login(email, password);
+        AuthenticationService authService = AuthenticationService.getInstance();
+        return authService.login(email, password);
     }
 
     private void checkEmail(String temp) {
@@ -27,10 +27,10 @@ public class AuthenticationController {
         checkEmail(email);
         checkName(name);
         //check password
-        AuthenticationService.register(email,name,password);
+        AuthenticationService.register(email, name, password);
     }
 
-    public void checkName(String name){
+    public void checkName(String name) {
         if (name.length() > 10) throw new InvalidParameterException();
     }
 }
