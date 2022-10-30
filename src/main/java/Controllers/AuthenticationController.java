@@ -1,6 +1,7 @@
 package Controllers;
 
 import java.security.InvalidParameterException;
+
 import java.util.regex.Pattern;
 
 public class AuthenticationController {
@@ -23,7 +24,15 @@ public class AuthenticationController {
     }
 
     public void register(String email, String name, String password) {
-        throw new UnsupportedOperationException();
+
+        checkEmail(email);
+        checkName(name);
+        //check password
+        AuthenticationService.register(email,name,password);
+    }
+
+    public void checkName(String name){
+        if (name.length() > 10) throw new InvalidParameterException();
     }
 }
 
