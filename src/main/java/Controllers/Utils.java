@@ -1,5 +1,6 @@
 package Controllers;
 
+import java.io.File;
 import java.security.InvalidParameterException;
 import java.util.regex.Pattern;
 
@@ -16,5 +17,10 @@ class Utils {
 
     static void checkName(String name) {
         if (name.length() > 10) throw new InvalidParameterException();
+    }
+
+    static boolean isJsonFile(File file) {
+        String fileName = file.getName();
+        return fileName.substring(fileName.lastIndexOf(".")).equals(".json");
     }
 }
