@@ -14,7 +14,6 @@ public class AuthenticationController {
     }
 
     public void register(String email, String name, String password) {
-
         Utils.checkEmail(email);
         Utils.checkName(name);
         Utils.checkPassword(password);
