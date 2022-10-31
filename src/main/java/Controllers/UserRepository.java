@@ -52,7 +52,6 @@ class UserRepository {
     void deleteFile(String path) {
         File file = new File("src\\main\\java\\Controllers\\users\\" + path);
         boolean b= file.delete();
-        System.out.println(b);
     }
 
     void writeToFile(String fileName, User user) throws IOException {
