@@ -21,7 +21,11 @@ public class UserController {
             throw new InvalidParameterException("Email not in correct format");
         }
         User user = authService.validate(token);
-        return userService.updateEmail(user, mail);
+        boolean status = userService.updateEmail(user, mail);
+        if (status) {
+            authService.reloadUser(mail, token);
+        }
+        return status;
     }
 
     public boolean updateName(String name, String token) throws IOException {
@@ -31,7 +35,11 @@ public class UserController {
             throw new InvalidParameterException("Name not in correct format");
         }
         User user = authService.validate(token);
-        return userService.updateName(user,name);
+        boolean status = userService.updateName(user, name);
+        if (status) {
+            authService.reloadUser(user.getEmail(), token);
+        }
+        return status;
     }
     public boolean updatePassword(String password, String token) throws IOException {
         try{
@@ -40,13 +48,20 @@ public class UserController {
             throw new InvalidParameterException("Email not in correct format");
         }
         User user = authService.validate(token);
-
-        return userService.updatePassword(user,password);
+        boolean status = userService.updatePassword(user, password);
+        if (status) {
+            authService.reloadUser(user.getEmail(), token);
+        }
+        return status;
     }
 
     public boolean deleteUser(String token){
         User user = authService.validate(token);
-        return userService.deleteUser(user);
+        boolean status = userService.deleteUser(user);
+        if (status) {
+            authService.removeToken(token);
+        }
+        return status;
     }
 
 }
