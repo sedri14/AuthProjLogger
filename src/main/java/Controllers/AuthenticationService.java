@@ -54,10 +54,12 @@ class AuthenticationService {
 
     String login(String email, String password) {
         User cachedUser = userRepo.readFromCache(email);
-        if (Objects.equals(cachedUser.getPassword(), password)) {
-            return createToken(cachedUser);
+        if (cachedUser == null) {
+            throw new IllegalArgumentException("user doesn\"t exist");
+        } else if (!Objects.equals(cachedUser.getPassword(), password)) {
+            throw new IllegalArgumentException("wrong password");
         }
-        throw new IllegalArgumentException("wrong password");
+        return createToken(cachedUser);
     }
 
     private String createToken(User user) {
