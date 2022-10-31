@@ -8,7 +8,6 @@ class AuthenticationService {
 
     private static volatile AuthenticationService authService;
     private UserRepository userRepo;
-    static int id = 0;
     Map<String, User> userTokens;
 
     private AuthenticationService() {
@@ -34,7 +33,7 @@ class AuthenticationService {
     void register(String email, String name, String password) {
 
         if (!checkIfUserExists(email)) {
-            User user = new User(id++, email, name, password);
+            User user = new User(UUID.randomUUID().hashCode(), email, name, password);
             try {
                 userRepo.writeToFile(user.getEmail() + ".json", user);
             } catch (IOException e) {
