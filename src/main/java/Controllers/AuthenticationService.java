@@ -11,11 +11,13 @@ import java.util.*;
 class AuthenticationService {
 
     private static volatile AuthenticationService authService;
+    private UserRepository userRepo;
     static int id = 0;
     Map<String, User> userTokens;
 
     private AuthenticationService() {
         this.userTokens = new HashMap<>();
+        userRepo = UserRepository.getInstance();
     }
 
     public static AuthenticationService getInstance() {
