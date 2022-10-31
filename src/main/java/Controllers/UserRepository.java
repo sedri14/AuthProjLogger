@@ -42,7 +42,7 @@ class UserRepository {
         for (File fileEntry: folder.listFiles()) {
             if (!fileEntry.isDirectory()) {
                 if (Utils.isJsonFile(fileEntry)) {
-                    User user = readFromFile(fileEntry.getName());
+                    User user = readFromFile(fileEntry.getAbsolutePath());
                     usersCache.put(user.getEmail(),user);
                 }
             }
@@ -56,7 +56,7 @@ class UserRepository {
 
     void writeToFile(String fileName, User user) throws IOException {
         Gson gson = new Gson();
-        try (FileWriter fw = new FileWriter(fileName)) {
+        try (FileWriter fw = new FileWriter("src\\main\\java\\Controllers\\users\\" + fileName)) {
             String userJson = gson.toJson(user);
             fw.write(userJson);
             usersCache.put(user.getEmail(), user);

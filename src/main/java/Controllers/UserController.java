@@ -28,7 +28,7 @@ public class UserController {
         try{
             Utils.checkName(name);
         }catch (InvalidParameterException ip){
-            throw new InvalidParameterException("Email not in correct format");
+            throw new InvalidParameterException("Name not in correct format");
         }
         User user = authService.validate(token);
         return userService.updateName(user,name);
