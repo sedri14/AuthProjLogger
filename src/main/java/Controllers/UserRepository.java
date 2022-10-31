@@ -7,18 +7,15 @@ import java.util.HashMap;
 import java.util.Map;
 
 class UserRepository {
-    //cache - load all files when app starts
-    //for every read - read from cache
-    //for every write - write to files and update cache
     private static volatile UserRepository userRepo;
-    Map<String, User> usersCache;   //email as key
+    Map<String, User> usersCache;
 
     static UserRepository getInstance() {
 
         UserRepository result = userRepo;
 
         if (result == null) {
-            synchronized (AuthenticationService.class) {
+            synchronized (UserRepository.class) {
                 result = userRepo;
                 if (result == null) {
                     userRepo = result = new UserRepository();

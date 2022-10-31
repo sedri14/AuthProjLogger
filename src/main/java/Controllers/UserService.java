@@ -22,7 +22,7 @@ class UserService {
         UserService result = userService;
 
         if (result == null) {
-            synchronized (AuthenticationService.class) {
+            synchronized (UserService.class) {
                 result = userService;
                 if (result == null) {
                     userService = result = new UserService();
