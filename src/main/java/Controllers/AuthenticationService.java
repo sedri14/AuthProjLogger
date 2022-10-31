@@ -1,10 +1,6 @@
 package Controllers;
 
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
-
 import java.io.*;
-import java.lang.reflect.Type;
 import java.security.InvalidParameterException;
 import java.util.*;
 
@@ -68,6 +64,15 @@ class AuthenticationService {
         String token = UUID.randomUUID().toString();
         userTokens.put(token, user);
         return token;
+    }
+
+    void reloadUser(String email, String token) {
+        User updatedUser = userRepo.readFromCache(email);
+        userTokens.put(token, updatedUser);
+    }
+
+    void removeToken(String token) {
+        userTokens.remove(token);
     }
 
 
