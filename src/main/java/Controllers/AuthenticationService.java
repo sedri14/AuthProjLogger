@@ -40,8 +40,7 @@ class AuthenticationService {
         if (!checkIfUserExists(email)) {
             User user = new User(id++, email, name, password);
             try {
-                BufferedWriter output = new BufferedWriter(new FileWriter(email + ".json"));
-                output.write(new Gson().toJson(user));
+                userRepo.writeToFile(user.getEmail() + ".json", user);
             } catch (IOException e) {
                 System.out.println("Couldn't write to file");
                 throw new RuntimeException(e);
@@ -58,19 +57,11 @@ class AuthenticationService {
 
 
     String login(String email, String password) {
-        try (FileReader reader = new FileReader(email + ".json")) {
-            Gson gson = new Gson();
-            User myUser = gson.fromJson(reader, User.class);
-            if (Objects.equals(myUser.getPassword(), password)) {
-                return createToken(myUser);
-            } else {
-                throw new InvalidParameterException("Password incorrect");
-            }
-        } catch (FileNotFoundException e) {
-            throw new InvalidParameterException("User does not exist");
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+        User cachedUser = userRepo.readFromCache(email);
+        if (Objects.equals(cachedUser.getPassword(), password)) {
+            return createToken(cachedUser);
         }
+        throw new IllegalArgumentException("wrong password");
     }
 
     private String createToken(User user) {
