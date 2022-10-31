@@ -4,12 +4,16 @@ import java.security.InvalidParameterException;
 import java.util.regex.Pattern;
 
 public class AuthenticationController {
+     AuthenticationService authService;
+
+    public AuthenticationController() {
+        this.authService = AuthenticationService.getInstance();
+    }
 
     public String login(String email, String password) {
         checkEmail(email);
         checkPassword(password);
-        AuthenticationService service = new AuthenticationService();
-        return service.login(email, password);
+        return authService.login(email, password);
     }
 
     private void checkEmail(String temp) {
@@ -26,11 +30,11 @@ public class AuthenticationController {
 
         checkEmail(email);
         checkName(name);
-        //check password
-        AuthenticationService.register(email,name,password);
+        checkPassword(password);
+        authService.register(email, name, password);
     }
 
-    public void checkName(String name){
+    public void checkName(String name) {
         if (name.length() > 10) throw new InvalidParameterException();
     }
 }

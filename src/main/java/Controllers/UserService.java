@@ -10,44 +10,69 @@ import java.util.Map;
 
 class UserService {
 
-    static boolean createUser (User user){
+    private static volatile UserService userService;
+
+    private UserService() {
+
+    }
+
+    public static UserService getInstance() {
+
+        UserService result = userService;
+
+        if (result == null) {
+            synchronized (AuthenticationService.class) {
+                result = userService;
+                if (result == null) {
+                    userService = result = new UserService();
+                }
+            }
+        }
+        return result;
+    }
+
+    boolean createUser(User user) {
         return true;
     }
-    static boolean updateEmail(User user, String updatedEmail) throws IOException {
-        deleteFile(user.getEmail()+".json");
-        User newUser = new User(user.getId(),updatedEmail, user.getName(), user.getPassword());
+
+    boolean updateEmail(User user, String updatedEmail) throws IOException {
+        deleteFile(user.getEmail() + ".json");
+        User newUser = new User(user.getId(), updatedEmail, user.getName(), user.getPassword());
         updateData(newUser);
         return true;
     }
-    static boolean updateName(User user, String updatedName) throws IOException {
-        deleteFile(user.getEmail()+".json");
+
+    boolean updateName(User user, String updatedName) throws IOException {
+        deleteFile(user.getEmail() + ".json");
         User newUser = new User(user.getId(), user.getEmail(), updatedName, user.getPassword());
         updateData(newUser);
         return true;
     }
-    static boolean updatePassword(User user, String updatedPassword) throws IOException {
-        deleteFile(user.getEmail()+".json");
-        User newUser = new User(user.getId(),user.getEmail(), user.getName(), updatedPassword);
+
+    boolean updatePassword(User user, String updatedPassword) throws IOException {
+        deleteFile(user.getEmail() + ".json");
+        User newUser = new User(user.getId(), user.getEmail(), user.getName(), updatedPassword);
         updateData(newUser);
         return true;
     }
-    static boolean deleteUser(User user){
-        deleteFile(user.getEmail()+".json");
+
+    boolean deleteUser(User user) {
+        deleteFile(user.getEmail() + ".json");
         return true;
     }
 
 
-    static void deleteFile(String path)  {
-            File file = new File(path);
-            file.delete();
+    static void deleteFile(String path) {
+        File file = new File(path);
+        file.delete();
     }
 
     static void updateData(User user) throws IOException {
         Gson gson = new Gson();
-        try (FileWriter fw = new FileWriter(user.getEmail()+".json")){
+        try (FileWriter fw = new FileWriter(user.getEmail() + ".json")) {
             String defaultConfig = gson.toJson(user);
             fw.write(defaultConfig);
-        } catch (IOException e){
+        } catch (IOException e) {
             throw new IOException("cant write to new file to update");
         }
     }

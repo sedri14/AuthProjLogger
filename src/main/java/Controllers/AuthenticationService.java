@@ -10,10 +10,30 @@ import java.util.*;
 
 class AuthenticationService {
 
+    private static volatile AuthenticationService authService;
     static int id = 0;
     Map<String, User> userTokens;
 
-    public static void register(String email, String name, String password) {
+    private AuthenticationService() {
+        this.userTokens = new HashMap<>();
+    }
+
+    public static AuthenticationService getInstance() {
+
+        AuthenticationService result = authService;
+
+        if (result == null) {
+            synchronized (AuthenticationService.class) {
+                result = authService;
+                if (result == null) {
+                    authService = result = new AuthenticationService();
+                }
+            }
+        }
+        return result;
+    }
+
+    void register(String email, String name, String password) {
 
         if (!checkIfUserExists(email)) {
             User user = new User(id++, email, name, password);
@@ -27,16 +47,13 @@ class AuthenticationService {
         }
     }
 
-    public User validate(String token) {
+    User validate(String token) {
         if (!userTokens.containsKey(token)) {
             throw new InvalidParameterException("Token incorrect");
         }
         return userTokens.get(token);
     }
 
-    public AuthenticationService() {
-        this.userTokens = new HashMap<>();
-    }
 
     String login(String email, String password) {
         try (FileReader reader = new FileReader(email + ".json")) {
