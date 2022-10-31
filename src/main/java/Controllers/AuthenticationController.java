@@ -18,7 +18,7 @@ public class AuthenticationController {
 
     private void checkEmail(String temp) {
         if (temp == null) throw new InvalidParameterException("String empty");
-        boolean matches = Pattern.compile("^(?=.{1,64}@)[A-Za-z0-9_-]+(\\\\.[A-Za-z0-9_-]+)*@[^-][A-Za-z0-9-]+(\\\\.[A-Za-z0-9-]+)*(\\\\.[A-Za-z]{2,})$").matcher(temp).matches();
+        boolean matches = Pattern.compile("^(?=.{1,64}@)[A-Za-z0-9_-]+(\\.[A-Za-z0-9_-]+)*@[^-][A-Za-z0-9-]+(\\.[A-Za-z0-9-]+)*(\\.[A-Za-z]{2,})$").matcher(temp).matches();
         if (!matches) throw new InvalidParameterException("Email not in correct format");
     }
 
