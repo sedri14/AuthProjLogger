@@ -40,6 +40,7 @@ public class UserController {
             throw new InvalidParameterException("Email not in correct format");
         }
         User user = authService.validate(token);
+
         return userService.updatePassword(user,password);
     }
 
