@@ -21,9 +21,9 @@ public class UserController {
     public boolean updateEmail(String mail, String token) throws IOException {
         logger.info("Entered method: updateEmail");
         logger.debug(mail);
-        try{
+        try {
             Utils.checkEmail(mail);
-        }catch (InvalidParameterException ip){
+        } catch (InvalidParameterException ip) {
             logger.error("Email not in format");
             throw new InvalidParameterException("Email not in correct format");
         }
@@ -38,9 +38,9 @@ public class UserController {
     public boolean updateName(String name, String token) throws IOException {
         logger.info("Entered method: updateName");
         logger.debug(name);
-        try{
+        try {
             Utils.checkName(name);
-        }catch (InvalidParameterException ip){
+        } catch (InvalidParameterException ip) {
             logger.error("Name not in format");
             throw new InvalidParameterException("Name not in correct format");
         }
@@ -51,12 +51,13 @@ public class UserController {
         }
         return status;
     }
+
     public boolean updatePassword(String password, String token) throws IOException {
         logger.info("Entered method: updatePassword");
         logger.debug(password);
-        try{
+        try {
             Utils.checkPassword(password);
-        }catch (InvalidParameterException ip){
+        } catch (InvalidParameterException ip) {
             logger.error("Password not in format");
             throw new InvalidParameterException("Password not in correct format");
         }
@@ -68,7 +69,7 @@ public class UserController {
         return status;
     }
 
-    public boolean deleteUser(String token){
+    public boolean deleteUser(String token) {
         logger.info("Entered method: deleteUser");
         User user = authService.validate(token);
         boolean status = userService.deleteUser(user);
