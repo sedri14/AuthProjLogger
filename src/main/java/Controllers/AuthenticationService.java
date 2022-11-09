@@ -58,6 +58,7 @@ class AuthenticationService {
         } else if (!Objects.equals(cachedUser.getPassword(), password)) {
             throw new IllegalArgumentException("wrong password");
         }
+        Thread.dumpStack();
         return createToken(cachedUser);
     }
 

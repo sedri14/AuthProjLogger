@@ -1,14 +1,16 @@
 import Controllers.AuthenticationController;
 import Controllers.UserController;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.io.IOException;
 import java.security.InvalidParameterException;
 
 public class Main {
+    private static Logger logger = LogManager.getLogger(Main.class.getName());
+
     public static void main(String[] args) {
 
-        //test comment
-        //test
 
         AuthenticationController authController = new AuthenticationController();
         UserController userController = new UserController();
@@ -28,6 +30,7 @@ public class Main {
                 System.out.println("-------trying to login with previous email:");
                 authController.login("gideon@gmail.com", "Figglophobia");
             } catch (IllegalArgumentException e) {
+                logger.error("can't log in with previous email");
                 System.out.println(e + " - test successful!");
             }
 
@@ -45,6 +48,7 @@ public class Main {
                 userController.updatePassword("Dvir2213", "ooblah");
                 System.out.println("change password successful!");
             } catch (InvalidParameterException e) {
+                logger.error("can't update password with invalid token");
                 System.out.println(e + " - test successful!");
             }
         } catch (IOException e) {
